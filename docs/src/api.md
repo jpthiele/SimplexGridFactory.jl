@@ -12,7 +12,7 @@ Pages = ["options.jl"]
 
 ## Test plots
 Currently only for PyPlot. For plotting
-grids, see [GridVisualize.jl](https://github.com/j-fu/GridVisualize.jl).
+grids, see [GridVisualize.jl](https://github.com/WIAS-PDELib/GridVisualize.jl).
 
 ```@autodocs
 Modules = [SimplexGridFactory]

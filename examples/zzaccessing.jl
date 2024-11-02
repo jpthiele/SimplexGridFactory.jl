@@ -3,8 +3,8 @@
 # ================
 #
 # You may want to use the this package to obtain grid data for your application.
-# The [ExtendableGrids](https://github.com/j-fu/ExtendableGrids.jl) package provides a lightweight grid data structure which
-# in its core is a `Dict{Type,Any}` and the possibility to [dispatch the return type on the key](https://j-fu.github.io/ExtendableGrids.jl/stable/tdict/).
+# The [ExtendableGrids](https://github.com/WIAS-PDELib/ExtendableGrids.jl) package provides a lightweight grid data structure which
+# in its core is a `Dict{Type,Any}` and the possibility to [dispatch the return type on the key](https://WIAS-PDELib.github.io/ExtendableGrids.jl/stable/tdict/).
 #
 function extract_2d()
     builder = SimplexGridBuilder(; Generator = Triangulate)

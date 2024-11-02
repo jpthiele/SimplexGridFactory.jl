@@ -1,6 +1,6 @@
-[![linux-macos-windows](https://github.com/j-fu/SimplexGridFactory.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/j-fu/SimplexGridFactory.jl/actions/workflows/ci.yml)
-[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://j-fu.github.io/SimplexGridFactory.jl/stable)
-[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://j-fu.github.io/SimplexGridFactory.jl/dev)
+[![linux-macos-windows](https://github.com/WIAS-PDELib/SimplexGridFactory.jl/actions/workflows/ci.yml/badge.svg)](https://github.com/WIAS-PDELib/SimplexGridFactory.jl/actions/workflows/ci.yml)
+[![](https://img.shields.io/badge/docs-stable-blue.svg)](https://WIAS-PDELib.github.io/SimplexGridFactory.jl/stable)
+[![](https://img.shields.io/badge/docs-dev-blue.svg)](https://WIAS-PDELib.github.io/SimplexGridFactory.jl/dev)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 
 
@@ -13,4 +13,3 @@ the   `TetGen`   module   as   parameter  to   the   constructor of `SimplexGrid
 adhere to  their respective license conditions. This package itself is MIT licensed.
 
 
-## Recent [changes](https://j-fu.github.io/SimplexGridFactory.jl/stable/changes)

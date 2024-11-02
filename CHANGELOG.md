@@ -1,4 +1,14 @@
 # Changes
+## v2.2.1 Nov 2, 2024
+- Move repo to WIAS-PDELib org
+
+## v2.2 June 25, 2024
+- bregions! without args and kwargs takes all boundaries instead of none.
+
+## v2.1 May 24, 2024
+- Use simplexgrid(tetgenio) from ExtendableGrids
+- Require Julia 1.9
+
 ## v2.0 March 21, 2024
 - Breaking: moved BinnedPointList to ExtendableGrids
 - Drop Julia 1.6 support, require Julia 1.9

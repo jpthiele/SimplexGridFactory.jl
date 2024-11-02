@@ -25,7 +25,7 @@ function mkdocs()
              doctest = false,
              clean = false,
              authors = "J. Fuhrmann, Ch. Merdon",
-             repo = "https://github.com/j-fu/SimplexGridFactory.jl",
+             repo = "https://github.com/WIAS-PDELib/SimplexGridFactory.jl",
              pages = [
                  "Home" => "index.md",
                  "Changes" => "changes.md",
@@ -42,4 +42,4 @@ end
 
 mkdocs()
 
-deploydocs(; repo = "github.com/j-fu/SimplexGridFactory.jl.git")
+deploydocs(; repo = "github.com/WIAS-PDELib/SimplexGridFactory.jl.git")
