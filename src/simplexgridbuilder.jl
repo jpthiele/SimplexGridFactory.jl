@@ -243,7 +243,7 @@ Add a facet via the corresponding point indices returned
 by [`point!`](@ref). 
 
 Facets of two points are solely used for 2D grids. Facets
-with more than two poins are used for 3D grids and must be 
+with more than two points are used for 3D grids and must be 
 planar.
 """
 function facet!(builder::SimplexGridBuilder, i)
@@ -302,7 +302,7 @@ polyfacet!(builder,vector_or_tuple)
 Add a polygonal facet via the corresponding point indices returned
 by [`point!`](@ref). 
 
-Facets with more than two poins are used for 3D grids and must be 
+Facets with more than two points are used for 3D grids and must be 
 planar.
 """
 function polyfacet!(builder::SimplexGridBuilder, p::Union{Vector, Tuple})
@@ -363,7 +363,7 @@ end
      maybewatertight(this::SimplexGridBuilder; bregions=nothing)
 
 Check if facets belonging to boundare regions in bregions are watertight.
-This is based on a nuber of heuristics, only a negative
+This is based on a number of heuristics, only a negative
 answer is definitive.
 """
 function maybewatertight(this::SimplexGridBuilder; bregions = nothing)

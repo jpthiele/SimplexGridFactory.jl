@@ -26,7 +26,7 @@ keyword arguments available to the methods of the package and are listed in the 
 
 
 For mesh generation, these are turned into mesh generator control flags. This process can be completely
-ovewritten by specifying the flags parameter. 
+overwritten by specifying the flags parameter. 
 
 For the flags parameter in 2D see the
 [short](https://juliageometry.github.io/Triangulate.jl/stable/#Triangulate.triangulate-Tuple{String,TriangulateIO})

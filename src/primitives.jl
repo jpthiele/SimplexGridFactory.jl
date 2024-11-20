@@ -206,7 +206,7 @@ function refine(coord, tri)
         p2 = coord[:, i2]
         p3 = coord[:, i3]
 
-        # new points inserted on the spere
+        # new points inserted on the sphere
         i12 = pinsert(rscale((p1 + p2) / 2), istop)
         i13 = pinsert(rscale((p1 + p3) / 2), istop)
         i23 = pinsert(rscale((p2 + p3) / 2), istop)
