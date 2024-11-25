@@ -25,7 +25,3 @@ Pages = ["plot.jl"]
 Modules = [SimplexGridFactory]
 Pages = ["primitives.jl"]
 ```
-
-
-
-

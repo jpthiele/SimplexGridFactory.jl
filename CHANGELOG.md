@@ -19,4 +19,3 @@ Should be essentially non-breaking, but it is time to move to real semver
 - TetGen/Triangulate version check via weakdeps and compat (starting with 1.9)
 - allow builderplot with Makie
 - Formatting
-

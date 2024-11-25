@@ -3,5 +3,3 @@
 ```@index
 Modules = [SimplexGridFactory]
 ```
-
-
