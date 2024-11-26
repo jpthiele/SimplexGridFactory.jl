@@ -4,4 +4,3 @@ SimplexGridFactory
 ```@contents
 Depth=5
 ```
-
