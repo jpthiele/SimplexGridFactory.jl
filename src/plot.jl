@@ -1,4 +1,3 @@
-
 """
 $(TYPEDSIGNATURES)
 
@@ -45,5 +44,5 @@ function builderplot(builder::SimplexGridBuilder, Plotter::Module; size = (650, 
     if Triangulate.ismakie(Plotter)
         figure = Plotter.Figure(; size)
     end
-    Triangulate.plot_in_out(Plotter, triin, triout; figure)
+    return Triangulate.plot_in_out(Plotter, triin, triout; figure)
 end

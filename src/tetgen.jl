@@ -21,7 +21,7 @@ function ExtendableGrids.simplexgrid(::Type{TetGenType}, TetGen, input; kwargs..
 
     tetout = TetGen.tetrahedralize(input, flags)
 
-    ExtendableGrids.simplexgrid(tetout)
+    return ExtendableGrids.simplexgrid(tetout)
 end
 
 """
@@ -36,12 +36,14 @@ indicated in the defaults and the leading dimension of 2D arrays
 corresponds to the space dimension.
 
 """
-function tetgenio(TetGen; points = Array{Cdouble, 2}(undef, 0, 0),
-                  bfaces = Array{Cint, 2}(undef, 0, 0),
-                  bfaceregions = Array{Cint, 1}(undef, 0),
-                  regionpoints = Array{Cdouble, 2}(undef, 0, 0),
-                  regionnumbers = Array{Cint, 1}(undef, 0),
-                  regionvolumes = Array{Cdouble, 1}(undef, 0))
+function tetgenio(
+        TetGen; points = Array{Cdouble, 2}(undef, 0, 0),
+        bfaces = Array{Cint, 2}(undef, 0, 0),
+        bfaceregions = Array{Cint, 1}(undef, 0),
+        regionpoints = Array{Cdouble, 2}(undef, 0, 0),
+        regionnumbers = Array{Cint, 1}(undef, 0),
+        regionvolumes = Array{Cdouble, 1}(undef, 0)
+    )
     @assert ndims(points) == 2
     if size(points, 2) == 3
         points = transpose(points)
@@ -49,7 +51,7 @@ function tetgenio(TetGen; points = Array{Cdouble, 2}(undef, 0, 0),
     if typeof(points) != Array{Cdouble, 2}
         points = Array{Cdouble, 2}(points)
     end
-    @assert(size(points, 2)>2)
+    @assert(size(points, 2) > 2)
 
     # if  ndims(bfaces)==2
     #     if size(bfaces,2)==2
@@ -87,7 +89,7 @@ function tetgenio(TetGen; points = Array{Cdouble, 2}(undef, 0, 0),
 
     nholes = 0
     nregions = 0
-    for i = 1:length(regionnumbers)
+    for i in 1:length(regionnumbers)
         if regionnumbers[i] == 0
             nholes += 1
         else
@@ -100,7 +102,7 @@ function tetgenio(TetGen; points = Array{Cdouble, 2}(undef, 0, 0),
 
     ihole = 1
     iregion = 1
-    for i = 1:length(regionnumbers)
+    for i in 1:length(regionnumbers)
         if regionnumbers[i] == 0
             holelist[1, ihole] = regionpoints[1, i]
             holelist[2, ihole] = regionpoints[2, i]
@@ -129,7 +131,7 @@ function tetgenio(TetGen; points = Array{Cdouble, 2}(undef, 0, 0),
     if size(holelist, 2) > 0
         tio.holelist = holelist
     end
-    tio
+    return tio
 end
 
 """
@@ -140,10 +142,12 @@ Create tetgen input from the current state of the builder.
 function tetgenio(this::SimplexGridBuilder)
     dim_space(this) = 3 || throw(error("dimension !=2 not implemented"))
 
-    tetgenio(this.Generator; points = this.pointlist.points,
-             bfaces = this.facets,
-             bfaceregions = this.facetregions,
-             regionpoints = this.regionpoints,
-             regionnumbers = this.regionnumbers,
-             regionvolumes = this.regionvolumes)
+    return tetgenio(
+        this.Generator; points = this.pointlist.points,
+        bfaces = this.facets,
+        bfaceregions = this.facetregions,
+        regionpoints = this.regionpoints,
+        regionnumbers = this.regionnumbers,
+        regionvolumes = this.regionvolumes
+    )
 end

@@ -39,23 +39,25 @@ The `unsuitable` parameter should be a function, see
 [`triunsuitable!`](https://juliageometry.github.io/TetGen.jl/stable/#TetGen.triunsuitable!-Tuple{Function}) .
 
 """
-default_options() = Dict{Symbol, Any}(:PLC => true,
-                                      :refine => false,
-                                      :quality => true,
-                                      :minangle => 20,
-                                      :volumecontrol => true,
-                                      :maxvolume => Inf,
-                                      :attributes => true,
-                                      :confdelaunay => true,
-                                      :optlevel => 1,
-                                      :nosteiner => false,
-                                      :quiet => true,
-                                      :verbose => false,
-                                      :debugfacets => true,
-                                      :check => false,
-                                      :unsuitable => nothing,
-                                      :flags => nothing,
-                                      :addflags => "")
+default_options() = Dict{Symbol, Any}(
+    :PLC => true,
+    :refine => false,
+    :quality => true,
+    :minangle => 20,
+    :volumecontrol => true,
+    :maxvolume => Inf,
+    :attributes => true,
+    :confdelaunay => true,
+    :optlevel => 1,
+    :nosteiner => false,
+    :quiet => true,
+    :verbose => false,
+    :debugfacets => true,
+    :check => false,
+    :unsuitable => nothing,
+    :flags => nothing,
+    :addflags => ""
+)
 
 function blendoptions!(opt; kwargs...)
     for (k, v) in kwargs
@@ -71,11 +73,11 @@ function blendoptions!(opt; kwargs...)
             end
         end
     end
-    opt
+    return opt
 end
 
 function makeflags(options, mesher)
-    if isnothing(options[:flags])
+    return if isnothing(options[:flags])
         flags = ""
         options[:PLC] ? flags *= "p" : nothing
         options[:refine] ? flags *= "r" : nothing

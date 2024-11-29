@@ -18,7 +18,7 @@ function ExtendableGrids.simplexgrid(::Type{TriangulateType}, Triangulate, input
     end
 
     triout, vorout = Triangulate.triangulate(flags, input)
-    ExtendableGrids.simplexgrid(triout)
+    return ExtendableGrids.simplexgrid(triout)
 end
 
 """
@@ -33,13 +33,15 @@ indicated in the defaults and the leading dimension of 2D arrays
 corresponds to the space dimension.
 
 """
-function triangulateio(Triangulate;
-                       points = Array{Cdouble, 2}(undef, 0, 0),
-                       bfaces = Array{Cint, 2}(undef, 0, 0),
-                       bfaceregions = Array{Cint, 1}(undef, 0),
-                       regionpoints = Array{Cdouble, 2}(undef, 0, 0),
-                       regionnumbers = Array{Cint, 1}(undef, 0),
-                       regionvolumes = Array{Cdouble, 1}(undef, 0))
+function triangulateio(
+        Triangulate;
+        points = Array{Cdouble, 2}(undef, 0, 0),
+        bfaces = Array{Cint, 2}(undef, 0, 0),
+        bfaceregions = Array{Cint, 1}(undef, 0),
+        regionpoints = Array{Cdouble, 2}(undef, 0, 0),
+        regionnumbers = Array{Cint, 1}(undef, 0),
+        regionvolumes = Array{Cdouble, 1}(undef, 0)
+    )
     ndims(points) == 2 || throw(DimensionMismatch("Wrong space dimension"))
     if size(points, 2) == 2
         points = transpose(points)
@@ -76,13 +78,13 @@ function triangulateio(Triangulate;
     @assert ndims(regionnumbers) == 1 || throw(DimensionMismatch("regionnumbers  must be vector"))
     @assert ndims(regionvolumes) == 1 || throw(DimensionMismatch("regionvolumes  must be vector"))
     @assert size(regionnumbers, 1) == size(regionpoints, 2) ||
-            throw(DimensionMismatch("size(regionnumbers,1) != size(regionpoints,2)"))
+        throw(DimensionMismatch("size(regionnumbers,1) != size(regionpoints,2)"))
     @assert size(regionvolumes, 1) == size(regionpoints, 2) ||
-            throw(DimensionMismatch("size(regionvolumes,1) !== size(regionpoints,2)"))
+        throw(DimensionMismatch("size(regionvolumes,1) !== size(regionpoints,2)"))
 
     nholes = 0
     nregions = 0
-    for i = 1:length(regionnumbers)
+    for i in 1:length(regionnumbers)
         if regionnumbers[i] == 0
             nholes += 1
         else
@@ -95,7 +97,7 @@ function triangulateio(Triangulate;
 
     ihole = 1
     iregion = 1
-    for i = 1:length(regionnumbers)
+    for i in 1:length(regionnumbers)
         if regionnumbers[i] == 0
             holelist[1, ihole] = regionpoints[1, i]
             holelist[2, ihole] = regionpoints[2, i]
@@ -128,7 +130,7 @@ function triangulateio(Triangulate;
         tio.holelist = holelist
     end
 
-    tio
+    return tio
 end
 
 """
@@ -139,16 +141,18 @@ Create triangle input from the current state of the builder.
 function triangulateio(this::SimplexGridBuilder)
     dim_space(this) == 2 || throw(error("dimension !=2 not implemented"))
     facets = Array{Cint, 2}(undef, 2, length(this.facets))
-    for i = 1:length(this.facets)
+    for i in 1:length(this.facets)
         facets[1, i] = this.facets[i][1]
         facets[2, i] = this.facets[i][2]
     end
 
-    triangulateio(this.Generator;
-                  points = this.pointlist.points,
-                  bfaces = facets,
-                  bfaceregions = this.facetregions,
-                  regionpoints = this.regionpoints,
-                  regionnumbers = this.regionnumbers,
-                  regionvolumes = this.regionvolumes)
+    return triangulateio(
+        this.Generator;
+        points = this.pointlist.points,
+        bfaces = facets,
+        bfaceregions = this.facetregions,
+        regionpoints = this.regionpoints,
+        regionnumbers = this.regionnumbers,
+        regionvolumes = this.regionvolumes
+    )
 end
