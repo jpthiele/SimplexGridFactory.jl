@@ -30,7 +30,7 @@ function extract_2d()
     @show grid[CellRegions]
     @show grid[BFaceNodes]
     @show grid[BFaceRegions]
-    grid
+    return grid
 end
 # The output of this call is this:
 # ```julia

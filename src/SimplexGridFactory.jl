@@ -1,7 +1,7 @@
 """
     SimplexGridFactory
 
-$(read(joinpath(@__DIR__,"..","README.md"),String))
+$(read(joinpath(@__DIR__, "..", "README.md"), String))
 """
 module SimplexGridFactory
 

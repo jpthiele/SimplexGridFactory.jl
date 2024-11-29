@@ -69,7 +69,7 @@ function SimplexGridBuilder(; Generator = nothing, tol = 1.0e-12, checkexisting 
     builder.options = default_options()
     builder.checkexisting = checkexisting
     builder._savedpoint = 0
-    builder
+    return builder
 end
 
 """
@@ -106,17 +106,17 @@ which can be used to set up facets with [`facet!`](@ref).
 """
 function point!(builder::SimplexGridBuilder, x)
     dim_space(builder) == 1 || throw(DimensionMismatch())
-    insert!(builder.pointlist, [x])
+    return insert!(builder.pointlist, [x])
 end
 
 function point!(builder::SimplexGridBuilder, x, y)
     dim_space(builder) == 2 || throw(DimensionMismatch())
-    insert!(builder.pointlist, [x, y])
+    return insert!(builder.pointlist, [x, y])
 end
 
 function point!(builder::SimplexGridBuilder, x, y, z)
     dim_space(builder) == 3 || throw(DimensionMismatch())
-    insert!(builder.pointlist, [x, y, z])
+    return insert!(builder.pointlist, [x, y, z])
 end
 
 const PointCoord = Union{AbstractVector, Tuple}
@@ -164,21 +164,21 @@ function regionpoint!(builder::SimplexGridBuilder, x)
     dim_space(builder) == 1 || throw(DimensionMismatch())
     append!(builder.regionpoints, (x))
     push!(builder.regionvolumes, builder.current_cellvolume)
-    push!(builder.regionnumbers, builder.current_cellregion)
+    return push!(builder.regionnumbers, builder.current_cellregion)
 end
 
 function regionpoint!(builder::SimplexGridBuilder, x, y)
     dim_space(builder) == 2 || throw(DimensionMismatch())
     append!(builder.regionpoints, (x, y))
     push!(builder.regionvolumes, builder.current_cellvolume)
-    push!(builder.regionnumbers, builder.current_cellregion)
+    return push!(builder.regionnumbers, builder.current_cellregion)
 end
 
 function regionpoint!(builder::SimplexGridBuilder, x, y, z)
     dim_space(builder) == 3 || throw(DimensionMismatch())
     append!(builder.regionpoints, (x, y, z))
     push!(builder.regionvolumes, builder.current_cellvolume)
-    push!(builder.regionnumbers, builder.current_cellregion)
+    return push!(builder.regionnumbers, builder.current_cellregion)
 end
 
 regionpoint!(builder::SimplexGridBuilder, p::PointCoord) = regionpoint!(builder, p...)
@@ -198,7 +198,7 @@ function holepoint!(builder::SimplexGridBuilder, x)
     append!(builder.regionpoints, (x))
     push!(builder.regionvolumes, 0)
     push!(builder.regionnumbers, 0)
-    nothing
+    return nothing
 end
 
 function holepoint!(builder::SimplexGridBuilder, x, y)
@@ -206,7 +206,7 @@ function holepoint!(builder::SimplexGridBuilder, x, y)
     append!(builder.regionpoints, (x, y))
     push!(builder.regionvolumes, 0)
     push!(builder.regionnumbers, 0)
-    nothing
+    return nothing
 end
 
 function holepoint!(builder::SimplexGridBuilder, x, y, z)
@@ -214,7 +214,7 @@ function holepoint!(builder::SimplexGridBuilder, x, y, z)
     append!(builder.regionpoints, (x, y, z))
     push!(builder.regionvolumes, 0)
     push!(builder.regionnumbers, 0)
-    nothing
+    return nothing
 end
 
 holepoint!(builder::SimplexGridBuilder, p::PointCoord) = holepoint!(builder, p...)
@@ -250,28 +250,28 @@ function facet!(builder::SimplexGridBuilder, i)
     dim_space(builder) == 1 || throw(DimensionMismatch())
     push!(builder.facets, [i])
     push!(builder.facetregions, builder.current_facetregion)
-    length(builder.facets)
+    return length(builder.facets)
 end
 
 function facet!(builder::SimplexGridBuilder, i1, i2)
     dim_space(builder) == 2 || throw(DimensionMismatch())
     push!(builder.facets, [i1, i2])
     push!(builder.facetregions, builder.current_facetregion)
-    length(builder.facets)
+    return length(builder.facets)
 end
 
 function facet!(builder::SimplexGridBuilder, i1, i2, i3)
     dim_space(builder) == 3 || throw(DimensionMismatch())
     push!(builder.facets, [i1, i2, i3])
     push!(builder.facetregions, builder.current_facetregion)
-    length(builder.facets)
+    return length(builder.facets)
 end
 
 function facet!(builder::SimplexGridBuilder, i1, i2, i3, i4)
     dim_space(builder) == 3 || throw(DimensionMismatch())
     push!(builder.facets, [i1, i2, i3, i4])
     push!(builder.facetregions, builder.current_facetregion)
-    length(builder.facets)
+    return length(builder.facets)
 end
 
 function facet!(builder::SimplexGridBuilder, p::Union{Vector, Tuple})
@@ -286,12 +286,12 @@ function facet!(builder::SimplexGridBuilder, p::Union{Vector, Tuple})
     end
     push!(builder.facets, [p...])
     push!(builder.facetregions, builder.current_facetregion)
-    length(builder.facets)
+    return length(builder.facets)
 end
 
 facet!(builder::SimplexGridBuilder, p1::PointCoord, p2::PointCoord) = facet!(builder, point!(builder, p1), point!(builder, p2))
 function facet!(builder::SimplexGridBuilder, p1::PointCoord, p2::PointCoord, p3::PointCoord)
-    facet!(builder, point!(builder, p1), point!(builder, p2), point!(builder, p3))
+    return facet!(builder, point!(builder, p1), point!(builder, p2), point!(builder, p3))
 end
 
 """
@@ -308,7 +308,7 @@ planar.
 function polyfacet!(builder::SimplexGridBuilder, p::Union{Vector, Tuple})
     push!(builder.facets, [p...])
     push!(builder.facetregions, builder.current_facetregion)
-    length(builder.facets)
+    return length(builder.facets)
 end
 
 """
@@ -323,29 +323,31 @@ See [`default_options`](@ref) for available `kwargs`.
 function ExtendableGrids.simplexgrid(builder::SimplexGridBuilder; kwargs...)
     if dim_space(builder) == 2
         facets = Array{Cint, 2}(undef, 2, length(builder.facets))
-        for i = 1:length(builder.facets)
+        for i in 1:length(builder.facets)
             facets[1, i] = builder.facets[i][1]
             facets[2, i] = builder.facets[i][2]
         end
-        make_tio=triangulateio
-        generator_type=TriangulateType
+        make_tio = triangulateio
+        generator_type = TriangulateType
     else
         facets = builder.facets
-        make_tio= tetgenio
-        generator_type=TetGenType
+        make_tio = tetgenio
+        generator_type = TetGenType
     end
 
     options = blendoptions!(copy(builder.options); kwargs...)
-    
-    tio =  make_tio(builder.Generator;
-                    points = builder.pointlist.points,
-                    bfaces = facets,
-                    bfaceregions = builder.facetregions,
-                    regionpoints = builder.regionpoints,
-                    regionnumbers = builder.regionnumbers,
-                    regionvolumes = builder.regionvolumes)
-    
-    ExtendableGrids.simplexgrid(generator_type, builder.Generator, tio; options...)
+
+    tio = make_tio(
+        builder.Generator;
+        points = builder.pointlist.points,
+        bfaces = facets,
+        bfaceregions = builder.facetregions,
+        regionpoints = builder.regionpoints,
+        regionnumbers = builder.regionnumbers,
+        regionvolumes = builder.regionvolumes
+    )
+
+    return ExtendableGrids.simplexgrid(generator_type, builder.Generator, tio; options...)
 end
 
 """
@@ -354,7 +356,7 @@ end
 Return mesh generator specific flag string created from builder options.
 """
 function flags(builder::SimplexGridBuilder)
-    if istetgen(builder.Generator)
+    return if istetgen(builder.Generator)
         makeflags(builder.options, :tetgen)
     elseif istriangulate(builder.Generator)
         makeflags(builder.options, :triangle)
@@ -386,9 +388,9 @@ function maybewatertight(this::SimplexGridBuilder; bregions = nothing)
     nfacets = size(facets, 1)
     ptmarkers = zeros(Int, npoints)
 
-    for ifacet = 1:nfacets
+    for ifacet in 1:nfacets
         if bfaceregions[ifacet] ∈ bregions
-            for idim = 1:dim
+            for idim in 1:dim
                 ptmarkers[facets[ifacet][idim]] += 1
             end
         end
@@ -407,16 +409,16 @@ function maybewatertight(this::SimplexGridBuilder; bregions = nothing)
         @info "Maybe description is watertight, but not sure"
     else
         @warn "Description is not watertight"
-        for ifacet = 1:nfacets
+        for ifacet in 1:nfacets
             if bfaceregions[ifacet] ∈ bregions
-                for idim = 1:dim
+                for idim in 1:dim
                     pt = facets[ifacet][idim]
                     if ptmarkers[pt] < dim
-                        @warn "Dangling facet $ifacet (bregion $(bfaceregions[ifacet]), point $(points[:,pt])"
+                        @warn "Dangling facet $ifacet (bregion $(bfaceregions[ifacet]), point $(points[:, pt])"
                     end
                 end
             end
         end
     end
-    maybe
+    return maybe
 end

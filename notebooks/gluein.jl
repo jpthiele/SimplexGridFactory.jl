@@ -95,8 +95,10 @@ begin
     grid3_1 = simplexgrid(X, X, Z1)
     cellmask!(grid3_1, [0, 0, 0], [10, 10, 4], 2)
     grid3_2 = simplexgrid(X, X, Z2)
-    grid3 = glue(grid3_1, grid3_2;
-                 interface = 7, g1regions = [6], g2regions = [5])
+    grid3 = glue(
+        grid3_1, grid3_2;
+        interface = 7, g1regions = [6], g2regions = [5]
+    )
 end
 
 # ╔═╡ 11ca5bdf-6cf0-4e6d-bf76-7a6aec0b7d42
@@ -265,14 +267,14 @@ function glue_3d()
     grid3 = simplexgrid(X, X, Z)
     b = SimplexGridBuilder(; Generator = TetGen)
 
-    bregions!(b, g0, 1:6; facetregions = [8 for i = 1:7])
+    bregions!(b, g0, 1:6; facetregions = [8 for i in 1:7])
     cellregion!(b, 2)
     regionpoint!(b, (-1, -1, -1))
 
     bregions!(b, grid3, 1:6)
     holepoint!(b, (5, 5, 2))
     gouter = simplexgrid(b; maxvolume = 0.4, nosteiner = true)
-    glue(gouter, grid3; interface = 7)
+    return glue(gouter, grid3; interface = 7)
 end
 
 # ╔═╡ 816401f3-d9fb-427b-b595-8dbd055cee5f
