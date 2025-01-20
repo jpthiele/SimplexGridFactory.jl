@@ -1,4 +1,7 @@
 # Changes
+## v2.4.0 Jan 20, 2024
+- Bump MeshIO compat to v0.5 (and thus allow for GeometryBasics v0.5)
+
 ## v2.3.0 Nov 28, 2024
 - Allow for TetGen v1, v2
 - Deprecate simplexgrid(Module...)
